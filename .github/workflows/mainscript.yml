@@ -12,7 +12,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
+      - name: Make build-and-push.sh executable
+        run: chmod +x ./build-and-push.sh
       - name: Run build and push script
         run: ./build-and-push.sh
         env:
