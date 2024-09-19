@@ -1,0 +1,28 @@
+name: 'Build and Push Docker Image'
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Prompt for Docker Hub credentials
+        run: |
+          echo "DOCKER_USERNAME=$(read -p 'Docker Hub Username: ' username && echo $username)" >> $GITHUB_ENV
+          echo "DOCKER_PASSWORD=$(read -sp 'Docker Hub Password: ' password && echo $password)" >> $GITHUB_ENV
+
+      - name: Make build-and-push.sh executable
+        run: chmod +x ./build-and-push.sh
+
+      - name: Run build and push script
+        run: ./build-and-push.sh
+        env:
+          DOCKER_USERNAME: ${{ env.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ env.DOCKER_PASSWORD }}
