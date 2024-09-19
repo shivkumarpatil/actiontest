@@ -1,4 +1,4 @@
-name: 'Hello World'
+name: 'Hello World Workflow'
 
 on: [push]
 
@@ -21,18 +21,7 @@ jobs:
           push: true
           tags: user/repo:latest
 
-inputs:
-  who-to-greet:
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-
-outputs:
-  time:
-    description: 'The time we greeted you'
-
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+      - name: Greet
+        uses: ./github/actions/hello-world
+        with:
+          who-to-greet: 'Universe'
